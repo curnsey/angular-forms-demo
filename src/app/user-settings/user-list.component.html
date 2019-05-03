@@ -1,0 +1,22 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>DOB</th>
+      <th>Email</th>
+      <th>SubscriptionType</th>
+      <th>BgColour</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let user of users">
+    <tr>
+      <th>{{ user.id }}</th>
+      <td><a [routerLink]="['/users', user.id]">{{ user.name }}</a></td>
+      <td>{{ user.dob }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.subscriptionType }}</td>
+      <td>{{ user.backgroundColour }}</td>
+    </tr>
+  </tbody>
+</table>
