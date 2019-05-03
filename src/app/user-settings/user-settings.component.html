@@ -1,64 +1,70 @@
 <div class="container">
   <h2>User Settings</h2>
   <hr/>
-  <form>
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+  <!-- <form #form="ngForm" *ngIf='userSettings'> -->
     <div class="form-group"> 
       <label for="name">Name</label>
-      <input name="name" id="name" class="form-control" placeholder="Name"/>
+      <input name="name" id="name" class="form-control" [class.field-error]="form.submitted && nameField.invalid" placeholder="Name" 
+             [(ngModel)]="userSettings.name" required pattern="[a-zA-Z]*" #nameField="ngModel" (blur)="onBlur(nameField)"
+      />
+      <div [hidden]="!form.submitted || nameField.valid" class="callout callout-danger">Enter a valid name.</div>
     </div>
     <div class="form-group"> 
-        <label for="dob">Date of Birth</label>
-        <input type="date" name="dob" id="dob" class="form-control" placeholder="yyyy-mm-dd"/>
-      </div>
+      <label for="dob">Date of Birth</label>
+      <input type="date" name="dob" id="dob" class="form-control" [class.field-error]="form.submitted && dobField.invalid" [(ngModel)]="userSettings.dob" #dobField="ngModel"/>
+      <div [hidden]="!form.submitted || dobField.valid" class="callout callout-danger">Enter a valid date.</div>
+    </div>
     <div class="form-group"> 
       <label for="password">Password</label>
-      <input type="password" name="password" id="password" class="form-control" placeholder=""/>
+      <input type="password" name="password" id="password" class="form-control" [class.field-error]="form.submitted && passwordField.invalid" placeholder="" value="{{userSettings.password}}" [(ngModel)]="userSettings.password" #passwordField="ngModel" required pattern="(?=^.{8,15}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$"/>
+      <div [hidden]="!form.submitted || passwordField.valid" class="callout callout-danger">Enter a valid password.</div>
     </div>
     <div class="form-group"> 
       <label for="confirmPassword">Confirm Password</label>
-      <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder=""/>
+      <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" [class.field-error]="form.submitted && confirmPasswordField.invalid" placeholder="" ngModel #confirmPasswordField="ngModel" required pattern="{{ userSettings.password }}"/>
+      <div [hidden]="(confirmPasswordField.value == passwordField.value) || passwordField.invalid || (confirmPasswordField.untouched)" class="callout callout-danger">Passwords do not match.</div>
+      <div [hidden]="(confirmPasswordField.value != passwordField.value) || passwordField.invalid || (confirmPasswordField.untouched)" class="callout callout-success">Passwords match.</div>
     </div>
     <div class="form-check">
-      <input name="emailOffers" id="emailOffers" class="form-check-input" type="checkbox"/>
+      <input name="emailOffers" id="emailOffers" class="form-check-input" type="checkbox" value="{{userSettings.emailOffers}}" [(ngModel)]="userSettings.emailOffers"/>
       <label for="emailOffers" class="form-check-label">Email Special Offers</label>
     </div>
     <br/>
     <p>Interface Background</p>
     <div class="form-check">
-      <input class="form-check-input" type="radio" name="backgroundColour" id="backgroundColour1" value="dark">
+      <input class="form-check-input" type="radio" name="backgroundColour" id="backgroundColour1" value="dark" [(ngModel)]="userSettings.backgroundColour">
       <label class="form-check-label" for="backgroundColour1">
         Dark
       </label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="radio" name="backgroundColour" id="backgroundColour2" value="medium">
+      <input class="form-check-input" type="radio" name="backgroundColour" id="backgroundColour2" value="medium" [(ngModel)]="userSettings.backgroundColour">
       <label class="form-check-label" for="backgroundColour2">
         Medium
       </label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="radio" name="backgroundColour" id="backgroundColour3" value="light">
+      <input class="form-check-input" type="radio" name="backgroundColour" id="backgroundColour3" value="light" [(ngModel)]="userSettings.backgroundColour">
       <label class="form-check-label" for="backgroundColour3">
         Light
       </label>
     </div>
     <br/>
     <div class="form-group">
-      <label for="subscriptionType">State</label>
-      <select id="subscriptionType" name="subscriptionType" class="form-control">
-        <option value=""></option>
-        <option value="7">Weekly</option>
-        <option value="30">Monthly</option>
-        <option value="365">Yearly</option>
+      <label for="subscriptionType">Subscription</label>
+      <select id="subscriptionType" name="subscriptionType" class="form-control" [(ngModel)]="userSettings.subscriptionType">
+        <option value="0"></option>
+        <option value="1">Weekly</option>
+        <option value="2">Monthly</option>
+        <option value="3">Yearly</option>
       </select>
     </div>
     <div class="form-group">
         <label for="notes">Notes</label>
-        <textarea name="notes" id="notes" class="form-control" rows="3"></textarea>
+        <textarea name="notes" id="notes" class="form-control" rows="3" [(ngModel)]="userSettings.notes"></textarea>
     </div>
     <hr/>
-    <button class="btn btn-success" (click)="send()">Send</button>
+    <button class="btn btn-success">Send</button>
   </form>
 </div>
-
-
