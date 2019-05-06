@@ -11,6 +11,11 @@
       />
       <div [hidden]="!form.submitted || nameField.valid" class="callout callout-danger">Enter a valid name.</div>
     </div>
+<!--     <button type="button" class="btn btn-primary" name="singleModel"
+            [(ngModel)]="singleModel" btnCheckbox
+            btnCheckboxTrue="On" btnCheckboxFalse="Off">
+      {{ singleModel }}
+    </button> -->
     <div class="form-group"> 
         <label for="email">Email</label>
         <input type="email" name="email" id="email" class="form-control" [class.field-error]="form.submitted && emailField.invalid" [(ngModel)]="userSettings.email" #emailField="ngModel"/>
@@ -18,7 +23,11 @@
       </div>
     <div class="form-group"> 
       <label for="dob">Date of Birth</label>
-      <input type="date" name="dob" id="dob" class="form-control" [class.field-error]="form.submitted && dobField.invalid" [(ngModel)]="userSettings.dob" #dobField="ngModel"/>
+      <input name="dob" id="dob" class="form-control" [class.field-error]="form.submitted && dobField.invalid" [(ngModel)]="userSettings.dob" #dobField="ngModel"
+        bsDatepicker 
+        [(bsValue)]="newVar" 
+        value="{{ newVar | date:'yyyy-MM-dd' }}"
+        [bsConfig]="{dateInputFormat: 'YYYY-MM-DD'}" />      
       <div [hidden]="!form.submitted || dobField.valid" class="callout callout-danger">Enter a valid date.</div>
     </div>
     <div class="form-group"> 
@@ -26,35 +35,19 @@
       <input type="password" name="password" id="password" class="form-control" [class.field-error]="form.submitted && passwordField.invalid" placeholder="" value="{{userSettings.password}}" [(ngModel)]="userSettings.password" #passwordField="ngModel" required pattern="^.{6,15}$"/>
       <div [hidden]="!form.submitted || passwordField.valid" class="callout callout-danger">Enter a valid password.</div>
     </div>
-<!--     <div class="form-group"> 
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" [class.field-error]="form.submitted && confirmPasswordField.invalid" placeholder="" ngModel #confirmPasswordField="ngModel" required pattern="{{ userSettings.password }}"/>
-      <div [hidden]="(confirmPasswordField.value == passwordField.value) || passwordField.invalid || (confirmPasswordField.untouched)" class="callout callout-danger">Passwords do not match.</div>
-      <div [hidden]="(confirmPasswordField.value != passwordField.value) || passwordField.invalid || (confirmPasswordField.untouched)" class="callout callout-success">Passwords match.</div>
-    </div> -->
     <div class="form-check">
       <input name="emailOffers" id="emailOffers" class="form-check-input" type="checkbox" value="{{userSettings.emailOffers}}" [(ngModel)]="userSettings.emailOffers"/>
       <label for="emailOffers" class="form-check-label">Email Special Offers</label>
     </div>
     <br/>
     <p>Interface Background</p>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="backgroundColour" id="backgroundColour1" value="dark" [(ngModel)]="userSettings.backgroundColour">
-      <label class="form-check-label" for="backgroundColour1">
-        Dark
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="backgroundColour" id="backgroundColour2" value="medium" [(ngModel)]="userSettings.backgroundColour">
-      <label class="form-check-label" for="backgroundColour2">
-        Medium
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="backgroundColour" id="backgroundColour3" value="light" [(ngModel)]="userSettings.backgroundColour">
-      <label class="form-check-label" for="backgroundColour3">
-        Light
-      </label>
+    <div class="btn-group">
+      <label class="btn btn-primary" [(ngModel)]="userSettings.backgroundColour" name="backgroundColour"
+             btnRadio="Light" tabindex="0" role="button">Light</label>
+      <label class="btn btn-primary" [(ngModel)]="userSettings.backgroundColour" name="backgroundColour"
+             btnRadio="Medium" tabindex="0" role="button">Medium</label>
+      <label class="btn btn-primary" [(ngModel)]="userSettings.backgroundColour" name="backgroundColour"
+             btnRadio="Dark" tabindex="0" role="button">Dark</label>
     </div>
     <br/>
     <div class="form-group">
@@ -66,6 +59,7 @@
         <option value="3">Yearly</option> -->
       </select>
     </div>
+    <pm-star [rating]='userSettings.rating' (notify)='onNotify($event);'></pm-star>
     <div class="form-group">
         <label for="notes">Notes</label>
         <textarea name="notes" id="notes" class="form-control" rows="3" [(ngModel)]="userSettings.notes"></textarea>

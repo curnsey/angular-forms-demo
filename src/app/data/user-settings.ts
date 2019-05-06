@@ -9,5 +9,6 @@ export interface UserSettings{
     emailOffers: boolean,
     backgroundColour: string,
     subscriptionType: number,
-    notes: string
+    notes: string,
+    rating: number
 }

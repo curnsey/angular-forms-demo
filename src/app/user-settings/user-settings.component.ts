@@ -20,6 +20,8 @@ export class UserSettingsComponent implements OnInit {
   postSubmit: boolean = false;
   postSubmitMessage: string = '';
 
+  singleModel: string = 'On';
+
   constructor(private route: ActivatedRoute, 
     private router: Router, 
     private dataService: DataService) { }
@@ -57,7 +59,8 @@ export class UserSettingsComponent implements OnInit {
     console.log('in onSubmit: ', form.valid);
     this.postError = false;
     this.postSubmit = false;
-    if(form.valid){
+    console.log(form.value);
+    /* if(form.valid){
       this.dataService.postUserSettings(this.userSettings).subscribe(
         result => {
           console.log(`success: ${result.submitMessage}${JSON.stringify(result)}`);
@@ -70,7 +73,7 @@ export class UserSettingsComponent implements OnInit {
     else{
       this.postError = true;
       this.postErrorMessage = 'Please fix form errors before submitting.';
-    }
+    } */
   }
 
   onHttpError(errorRespnse: any){
